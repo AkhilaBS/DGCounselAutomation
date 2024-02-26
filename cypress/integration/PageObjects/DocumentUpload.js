@@ -1,3 +1,6 @@
+import "cypress-file-upload";
+class DocumentUpload{
+
 WebElements = {
     DocsMenu: () =>
       cy.get(":nth-child(3) > .left-menu-icon > .iconlink > .mattersicon"),
@@ -35,3 +38,30 @@ WebElements = {
     AssertDocs: () => cy.xpath("//tr//td[1]"),
     AssertDesc: () => cy.xpath("//tbody/tr[1]/td[2]"),
   };
+
+  DocumentMenuclick(){
+    cy.wait(1000)
+    this.WebElements.DocsMenu().click({ force: true })
+  }
+
+  UploadTabClick(){
+    cy.wait(1000)
+    this.WebElements.UploadTab().click({ force: true })
+  }
+  SelectDepartmentAddButton(){
+    cy.wait(1000)
+    this.WebElements.SelectDept().click({ force: true })
+  }
+
+  SelectDepts(deptSelect) {
+    for (let i = 0; i < deptSelect.length; i++) {
+      cy.xpath(
+        "//div//label[text()='" + deptSelect[i] + "']//following::input[1]"
+      ).click({ force: true });
+    }
+  }
+
+
+
+}
+export default DocumentUpload;
