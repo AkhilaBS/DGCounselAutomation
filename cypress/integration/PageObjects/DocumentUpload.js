@@ -60,6 +60,78 @@ WebElements = {
       ).click({ force: true });
     }
   }
+  SelectDeptMinus() {
+    cy.scrollTo("top");
+    this.WebElements.DeptMinus().click({ force: true });
+  }
+  SelectExternalMatterRadioBtn() {
+    this.WebElements.SelectExtMatRadioBtn().click();
+  }
+  selectMatterDropdown(extMatterSelect) {
+    cy.get("select.textbox").select(extMatterSelect);
+    cy.wait(1000);
+  }
+   browseButton1(){
+    cy.wait(1000);
+    cy.get('[type="file"]').attachFile(["RTFFile-01.rtf", "DOCXFile-01.docx"], {
+      force: true,
+    })
+  }
+    browseButton1(){
+      cy.wait(1000);
+      cy.get('[type="file"]').attachFile(["RTFFile-01.rtf", "DOCXFile-01.docx"], {
+        force: true,
+      })
+    
+  }
+  ClickBrowseBtnUploadMore() {
+    cy.wait(1000);
+    cy.get('[type="file"]').attachFile(["Aws.pdf", "file_example_XLS_100.xls"], {
+      force: true,
+    });
+  }
+  EnableDownload() {
+    this.WebElements.EnableDown().click({ force: true });
+  }
+  DisableDownload() {
+    this.WebElements.DisableDown().click();
+  }
+  AddTagsBtn() {
+    cy.get('[for="btnradio4"]').click();
+  }
+  ATFirstOne() {
+    this.WebElements.ATFirst().click({ force: true });
+  }
+  ATSecondOne() {
+    this.WebElements.ATSecond().click();
+    //   cy.scrollTo("bottom");
+  }
+  Tagtypes(tagType) {
+    this.WebElements.TagType(tagType);
+  }
+  TagsInputs(tagsInput) {
+    this.WebElements.TagsInput(tagsInput);
+  }
+  SelectAllTags() {
+    this.WebElements.ATSelectAll().click();
+  }
+  UpSaveDisable() {
+    cy.get(".btnsave", {
+      timeout: 10000,
+    })
+      .should("be.enabled")
+      .click();
+  }
+  EnableEncryption() {
+    this.WebElements.EnableEncrypt().click();
+  }
+  DisableEncryption() {
+    this.WebElements.DisableEncrypt().click();
+  }
+  AddTags() {
+    this.WebElements.AddTags().click();
+    cy.scrollTo("bottom");
+  }
 
 
 
