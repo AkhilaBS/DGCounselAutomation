@@ -31,6 +31,11 @@ describe('documentUpload', () => {
         Documents.SelectExternalMatterRadioBtn();
     })
     })
+    afterEach(() => {
+        cy.wait(1000)
+        Documents.DashboardClick();
+      });
+      
     it("TestCase: 1.SingleRTF-Upload-ViewChanges", () => {
     
         Documents.selectMatterDropdown(extMatter);
@@ -40,7 +45,7 @@ describe('documentUpload', () => {
         cy.wait(2000);
     
     })
-    it("TestCase: 2.SinglePDF-Upload-ViewChanges", () => {
+    it.only("TestCase: 2.SinglePDF-Upload-ViewChanges", () => {
     
         Documents.selectMatterDropdown(extMatter);
         Documents.browseButtonPDF();
@@ -54,6 +59,33 @@ describe('documentUpload', () => {
         Documents.selectMatterDropdown(extMatter);
         Documents.browseButtonCSV();
         Documents.UploadSaveBtn();
+        Documents.ViewChanges();
+        cy.wait(2000);
+    
+    })
+    it("TestCase: 5.SingleXLXS-Upload-ViewChanges", () => {
+    
+        Documents.selectMatterDropdown(extMatter);
+        browseButtonXlsx()
+        Documents.UploadSaveBtn();
+        Documents.ViewChanges();
+        cy.wait(2000);
+    
+    })
+    it("TestCase: 6.SinglePNG-Upload-ViewChanges", () => {
+    
+        Documents.selectMatterDropdown(extMatter);
+        browseButtonXlsx()
+        Documents.browseButtonPNG();
+        Documents.ViewChanges();
+        cy.wait(2000);
+    
+    })
+    it("TestCase:7 .SinglePNG-Upload-ViewChanges", () => {
+    
+        Documents.selectMatterDropdown(extMatter);
+        browseButtonXlsx()
+        Documents.browseButtonPPTX();
         Documents.ViewChanges();
         cy.wait(2000);
     

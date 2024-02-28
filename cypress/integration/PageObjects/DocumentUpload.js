@@ -38,16 +38,23 @@ class DocumentUpload {
     AddButtonInTags: ()=>cy.get(".btn.btn-primary"),
     AssertDocs: () => cy.xpath("//tr//td[1]"),
     AssertDesc: () => cy.xpath("//tbody/tr[1]/td[2]"),
+    Dashboard: ()=> cy.get('#dashboard-icon > img')
   };
 
   DocumentMenuclick() {
     cy.wait(1000)
     this.WebElements.DocsMenu().click({ force: true })
   }
+  DashboardClick(){
+    cy.wait(1000)
+    this.WebElements.Dashboard().click({ force: true })
+    cy.wait(5000)
+  }
 
   UploadTabClick() {
     cy.wait(1000)
     this.WebElements.UploadTab().click({ force: true })
+    
   }
   SelectDepartmentAddButton() {
     cy.wait(1000)
