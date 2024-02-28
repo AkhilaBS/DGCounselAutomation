@@ -1,7 +1,7 @@
 import "cypress-file-upload";
-class DocumentUpload{
+class DocumentUpload {
 
-WebElements = {
+  WebElements = {
     DocsMenu: () =>
       cy.get(":nth-child(3) > .left-menu-icon > .iconlink > .mattersicon"),
     UploadTab: () => cy.get(".upload"),
@@ -35,20 +35,21 @@ WebElements = {
     UploadCancel: () => cy.get(".btncancel"),
     ViewChange: () => cy.get(".alertbtn"),
     UploadMore: () => cy.get(".upload-btn"),
+    AddButtonInTags: ()=>cy.get(".btn.btn-primary"),
     AssertDocs: () => cy.xpath("//tr//td[1]"),
     AssertDesc: () => cy.xpath("//tbody/tr[1]/td[2]"),
   };
 
-  DocumentMenuclick(){
+  DocumentMenuclick() {
     cy.wait(1000)
     this.WebElements.DocsMenu().click({ force: true })
   }
 
-  UploadTabClick(){
+  UploadTabClick() {
     cy.wait(1000)
     this.WebElements.UploadTab().click({ force: true })
   }
-  SelectDepartmentAddButton(){
+  SelectDepartmentAddButton() {
     cy.wait(1000)
     this.WebElements.SelectDept().click({ force: true })
   }
@@ -65,25 +66,51 @@ WebElements = {
     this.WebElements.DeptMinus().click({ force: true });
   }
   SelectExternalMatterRadioBtn() {
+    cy.wait(1000)
     this.WebElements.SelectExtMatRadioBtn().click();
   }
   selectMatterDropdown(extMatterSelect) {
     cy.get("select.textbox").select(extMatterSelect);
     cy.wait(1000);
   }
-   browseButton1(){
+  browseButtonRTFFile() {
     cy.wait(1000);
-    cy.get('[type="file"]').attachFile(["RTFFile-01.rtf", "DOCXFile-01.docx"], {
+    cy.get('[type="file"]').attachFile(["RTFFile-01.rtf"], {
       force: true,
     })
   }
-    browseButton1(){
-      cy.wait(1000);
-      cy.get('[type="file"]').attachFile(["RTFFile-01.rtf", "DOCXFile-01.docx"], {
-        force: true,
-      })
-    
+  browseButtonPDF() {
+    cy.wait(1000);
+    cy.get('[type="file"]').attachFile(["Aws.pdf"], {
+      force: true,
+    })
   }
+  browseButtonCSV() {
+    cy.wait(1000);
+    cy.get('[type="file"]').attachFile(["XLSFile.csv"], {
+      force: true,
+    })
+  }
+  browseButtonXlsx(){
+    cy.wait(1000);
+    cy.get('[type="file"]').attachFile(["XLXSfile-01.xlsx"], {
+      force: true,
+    })
+  }
+
+  browseButtonPNG(){
+    cy.wait(1000);
+    cy.get('[type="file"]').attachFile(["PNGFile.png"], {
+      force: true,
+    })
+  }
+  browseButtonPPTX(){
+    cy.wait(1000);
+    cy.get('[type="file"]').attachFile(["Personal Digicoffer Test cases.pptx"], {
+      force: true,
+    })
+  }
+
   ClickBrowseBtnUploadMore() {
     cy.wait(1000);
     cy.get('[type="file"]').attachFile(["Aws.pdf", "file_example_XLS_100.xls"], {
@@ -132,8 +159,133 @@ WebElements = {
     this.WebElements.AddTags().click();
     cy.scrollTo("bottom");
   }
+  //tags
+  AddTagsToDocument(tagsType, tagName) {
+    this.AddTagsBtn();
+    cy.get(".inputEl").click();
+    cy.wait(2000);
+    cy.scrollTo("bottom");
+    cy.wait(2000);
+    cy.get(":nth-child(1) > .form-group > #caseType").each(($element, $index, $list) => {
+    this.WebElements.AddButtonInTags().click({ force: true });
+    if($index >= 2 ){
+    this.WebElements.AddButtonInTags().click({ force: true });
+    cy.wrap($element).clear().type(tagsType);
+    cy.get(":nth-child(2) > .form-group > #caseType").clear().type(tagName); 
+    }
+    this.WebElements.AddButtonInTags().click({ force: true });
+    this.WebElements.AddTagSaveBtn().click();
+    cy.get(" div:nth-child(4) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(2) > i:nth-child(1)").click();
+    
+    })
+  }
+
+  //Document Edit Save Button
+  DocEditSaveBtn() {
+    this.WebElements.DocsEditSave().click();
+  }
+
+
+  UploadSaveBtn() {
+    this.WebElements.UploadSave().click({ force: true });
+  }
+  ViewChanges() {
+    this.WebElements.ViewChange().click({ force: true });
+    cy.scrollTo(0, 300, { ensureScrollable: false });
+  }
+  UploadCancelBtn() {
+    this.WebElements.UploadCancel().click({ force: true });
+  }
+  //Document Name Assert
+  DocsNameAssert(docsAssert) {
+    this.WebElements.AssertDocs().should("contain", docsAssert);
+  }
+  //Description Change Assert
+  DescChangesAssert(descAssert) {
+    this.WebElements.AssertDesc().should("contain", descAssert);
+  }
+
+  //Document Edit only
+  DocumentNameEdit(DocName) {
+    cy.get(".fa fa-edit").each(($element, $index, $list) => {
+      cy.wrap($element).click();
+      cy.wait(1000);
+      cy.scrollTo("bottom");
+      cy.get("#documentName").clear().type(DocName);
+      cy.wait(1000);
+      this.DocEditSaveBtn();
+    })
+
+  }
+  //Description Edit only
+  DocumentDescriptionEdit(DocDescription) {
+    cy.get(".fa fa-edit").each(($element, $index, $list) => {
+      cy.wrap($element).click();
+      cy.scrollTo("bottom");
+      cy.get("textarea[name='description']").clear({ force: true, }).type(DocDescription);
+      cy.wait(1000);
+      this.DocEditSaveBtn();
+    })
+
+  }
+  //Document Expiration date only
+  DocumentExpirationedit(ExpDate) {
+    cy.get(".fa fa-edit").each(($element, $index, $list) => {
+      cy.wrap($element).click();
+      cy.scrollTo("bottom");
+      cy.get(".mat-datepicker-input").clear({ force: true }).type(ExpDate);
+      cy.wait(1000);
+      this.DocEditSaveBtn();
+    });
+  }
+  DocsNameandDescriptionEdit(DocName, DocDesc) {
+    cy.get(".fa.fa-edit").each(($element, $index, $list) => {
+      cy.wrap($element).click();
+      cy.wait(1000);
+      cy.scrollTo("bottom");
+      cy.get("#documentName").clear().type(DocName);
+      cy.wait(1000);
+      cy.get(":nth-child(2) > .form-group > .form-control")
+        .clear({
+          force: true,
+        })
+        .clear()
+        .type(DocDesc);
+      this.DocEditSaveBtn();
+    });
+  }
+  DocsNameandExpDate(DocName, ExpDate) {
+    cy.get(".fa.fa-edit").each(($element, $index, $list) => {
+      cy.wrap($element).click();
+      cy.wait(1000);
+      cy.scrollTo("bottom");
+      cy.get("#documentName").clear().type(DocName);
+      cy.wait(1000);
+      cy.get(".mat-datepicker-input").clear({ force: true }).type(ExpDate);
+      cy.wait(1000);
+      this.DocEditSaveBtn();
+    });
+  }
+
+  DocsNameandDescripitonExpdateEdit(DocName, DocDesc, ExpDate) {
+    cy.get(".fa.fa-edit").each(($element, $index, $list) => {
+      cy.wrap($element).click();
+      cy.wait(1000);
+      cy.scrollTo("bottom");
+      cy.get("#documentName").clear().type(DocName);
+      cy.wait(1000);
+      cy.get(":nth-child(2) > .form-group > .form-control")
+        .clear({
+          force: true,
+        })
+        .type(DocDesc);
+      cy.wait(1000);
+      cy.get(".mat-datepicker-input").clear({ force: true }).type(ExpDate);
+      this.DocEditSaveBtn();
+    });
+  }
 
 
 
 }
-export default DocumentUpload;
+export default new DocumentUpload;
