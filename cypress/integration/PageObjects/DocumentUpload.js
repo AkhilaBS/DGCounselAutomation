@@ -1,5 +1,7 @@
 import "cypress-file-upload";
+import documentUploadData from "../../fixtures/documentUploadData.json"
 class DocumentUpload {
+  
 
   WebElements = {
     DocsMenu: () =>
@@ -7,7 +9,7 @@ class DocumentUpload {
     UploadTab: () => cy.get(".upload"),
     SelectDept: () => cy.get(".multicheck > .fa"),
     DeptMinus: () => cy.get(".fa.fa-minus"),
-    SelectExtMatRadioBtn: () => cy.get("#mat-radio-3"),
+    SelectExtMatRadioBtn: () => cy.get('[type="radio"][value="external"]'),
     EnableDown: () => cy.get('[for="btnradio1"]'),
     DisableDown: () => cy.get('[for="btnradio2"]'),
     EnableEncrypt: () => cy.get('[for="btnradio3"]'),
@@ -40,7 +42,9 @@ class DocumentUpload {
     AssertDesc: () => cy.xpath("//tbody/tr[1]/td[2]"),
     Dashboard: ()=> cy.get('#dashboard-icon > img')
   };
-
+  gettingFixtures(){
+    return cy.fixture("documentUploadData.json")
+   }
   DocumentMenuclick() {
     cy.wait(1000)
     this.WebElements.DocsMenu().click({ force: true })
@@ -117,6 +121,33 @@ class DocumentUpload {
       force: true,
     })
   }
+
+  BrowseButtondocTC01(){
+    this.gettingFixtures().then((data)=>{
+    cy.wait(1000)
+    cy.get('[type="file"]').attachFile([data.BrowserDocuments.Doc1, data.BrowserDocuments.Doc2],{force: true,}
+  )}
+   ) }
+    
+  BrowseButtondoTC02(){
+    this.gettingFixtures().then((data)=>{
+      cy.wait(1000)
+      cy.get('[type="file"]').attachFile([data.BrowserDocuments.Doc3, data.BrowserDocuments.Doc4],{force: true,}
+    )}
+  )}
+    
+  BrowseButtondocTC03(){
+    this.gettingFixtures().then((data)=>{
+      cy.wait(1000)
+      cy.get('[type="file"]').attachFile([data.BrowserDocuments.Doc5],{force: true,}
+    )}
+  )}
+  BrowseButtondocTC04(){
+    this.gettingFixtures().then((data)=>{
+      cy.wait(1000)
+      cy.get('[type="file"]').attachFile([data.BrowserDocuments.Doc6],{force: true,}
+    )}
+  )}
 
   ClickBrowseBtnUploadMore() {
     cy.wait(1000);
@@ -214,11 +245,11 @@ class DocumentUpload {
 
   //Document Edit only
   DocumentNameEdit(DocName) {
-    cy.get(".fa fa-edit").each(($element, $index, $list) => {
+    cy.get("i[class*='fa fa-edit']").each(($element, $index, $list) => {
       cy.wrap($element).click();
       cy.wait(1000);
       cy.scrollTo("bottom");
-      cy.get("#documentName").clear().type(DocName);
+      cy.get("#documentName").clear().type(DocName[$index]);
       cy.wait(1000);
       this.DocEditSaveBtn();
     })
@@ -229,7 +260,7 @@ class DocumentUpload {
     cy.get(".fa fa-edit").each(($element, $index, $list) => {
       cy.wrap($element).click();
       cy.scrollTo("bottom");
-      cy.get("textarea[name='description']").clear({ force: true, }).type(DocDescription);
+      cy.get("textarea[name='description']").clear({ force: true, }).type(DocDescription[$index]);
       cy.wait(1000);
       this.DocEditSaveBtn();
     })

@@ -25,10 +25,12 @@ describe('documentUpload', () => {
         extMatter = data.selectDepartments.selectMatterExt;
         Documents.DocumentMenuclick();
         Documents.UploadTabClick();
+        Documents.SelectExternalMatterRadioBtn();
         Documents.SelectDepartmentAddButton();
         Documents.SelectDepts(selectDepts);
         Documents.SelectDeptMinus();
-        Documents.SelectExternalMatterRadioBtn();
+        cy.wait(2000);
+        
     })
     })
     afterEach(() => {
@@ -45,7 +47,7 @@ describe('documentUpload', () => {
         cy.wait(2000);
     
     })
-    it.only("TestCase: 2.SinglePDF-Upload-ViewChanges", () => {
+    it("TestCase: 2.SinglePDF-Upload-ViewChanges", () => {
     
         Documents.selectMatterDropdown(extMatter);
         Documents.browseButtonPDF();
@@ -66,7 +68,7 @@ describe('documentUpload', () => {
     it("TestCase: 5.SingleXLXS-Upload-ViewChanges", () => {
     
         Documents.selectMatterDropdown(extMatter);
-        browseButtonXlsx()
+        Documents.browseButtonXlsx()
         Documents.UploadSaveBtn();
         Documents.ViewChanges();
         cy.wait(2000);
@@ -75,8 +77,8 @@ describe('documentUpload', () => {
     it("TestCase: 6.SinglePNG-Upload-ViewChanges", () => {
     
         Documents.selectMatterDropdown(extMatter);
-        browseButtonXlsx()
         Documents.browseButtonPNG();
+        Documents.UploadSaveBtn();
         Documents.ViewChanges();
         cy.wait(2000);
     
@@ -84,8 +86,8 @@ describe('documentUpload', () => {
     it("TestCase:7 .SinglePNG-Upload-ViewChanges", () => {
     
         Documents.selectMatterDropdown(extMatter);
-        browseButtonXlsx()
-        Documents.browseButtonPPTX();
+        Documents.browseButtonPPTX()
+        Documents.UploadSaveBtn();
         Documents.ViewChanges();
         cy.wait(2000);
     
